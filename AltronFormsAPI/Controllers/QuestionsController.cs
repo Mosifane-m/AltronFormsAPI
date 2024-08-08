@@ -1,4 +1,5 @@
-﻿using AltronFormsAPI.Models.Entities;
+﻿using AltronFormsAPI.Models;
+using AltronFormsAPI.Models.Entities;
 using AltronFormsAPI.Server.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -36,6 +37,24 @@ namespace AltronFormsAPI.Controllers
             }
 
             return Ok(userQuestions);
+        }
+
+        [HttpPost]
+
+        public IActionResult postQuestions(addQuestionDto addQuestionDto)
+        {
+            var questionEntity = new Questions()
+            {
+                QuestionnaireID = addQuestionDto.QuestionnaireID,
+                QuestionText = addQuestionDto.QuestionText,
+                QuestionType = "TextBox",
+                IsRequired = "required",
+            };
+
+            dbContext.Questions.Add(questionEntity);
+            dbContext.SaveChanges();
+
+            return Ok(questionEntity);
         }
     }
 }

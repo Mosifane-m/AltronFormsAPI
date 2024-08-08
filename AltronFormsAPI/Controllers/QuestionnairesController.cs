@@ -1,8 +1,10 @@
-﻿using AltronFormsAPI.Models.Entities;
+﻿using AltronFormsAPI.Models;
+using AltronFormsAPI.Models.Entities;
 using AltronFormsAPI.Server.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AltronFormsAPI.Controllers
 {
@@ -35,6 +37,25 @@ namespace AltronFormsAPI.Controllers
             }
 
             return Ok(UserQuestionaires);
+        }
+
+        [HttpPost]
+
+        public IActionResult AddQuestionaire(addQuestionaireDto addQuestionaireDto)
+        {
+            var questionaireEntity = new Questionaires()
+            {
+                UserID = addQuestionaireDto.UserID,
+                Title = addQuestionaireDto.Title,
+                Description = addQuestionaireDto.Description,
+                Published = "Not Published",
+            };
+
+            dbContext.Questionnaires.Add(questionaireEntity);
+            dbContext.SaveChanges();
+
+
+            return Ok(questionaireEntity);
         }
     }
 }
